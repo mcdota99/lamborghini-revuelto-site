@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lamborghini Revuelto | From Now On</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,300;0,600;0,900;1,900&family=Montserrat:wght@300;400;600&display=swap');
+
+        :root {
+            --lambo-orange: #ff5f00; /* Arancio Apodis Style */
+            --lambo-green: #9acd32; /* Verde Chiaro Style */
+            --carbon-dark: #111111;
+            --carbon-light: #1a1a1a;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: black;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .heading-font {
+            font-family: 'Exo 2', sans-serif;
+            text-transform: uppercase;
+        }
+
+        /* Hexagon Pattern Background */
+        .hex-bg {
+            background-image: 
+                linear-gradient(30deg, #1a1a1a 12%, transparent 12.5%, transparent 87%, #1a1a1a 87.5%, #1a1a1a),
+                linear-gradient(150deg, #1a1a1a 12%, transparent 12.5%, transparent 87%, #1a1a1a 87.5%, #1a1a1a),
+                linear-gradient(30deg, #1a1a1a 12%, transparent 12.5%, transparent 87%, #1a1a1a 87.5%, #1a1a1a),
+                linear-gradient(150deg, #1a1a1a 12%, transparent 12.5%, transparent 87%, #1a1a1a 87.5%, #1a1a1a),
+                linear-gradient(60deg, #151515 25%, transparent 25.5%, transparent 75%, #151515 75%, #151515),
+                linear-gradient(60deg, #151515 25%, transparent 25.5%, transparent 75%, #151515 75%, #151515);
+            background-size: 80px 140px;
+            background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+            opacity: 0.2;
+        }
+
+        .clip-wedge {
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+        }
+
+        .clip-slant {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 90%);
+        }
+
+        /* Animations */
+        .fade-in-up {
+            animation: fadeInUp 1s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .y-light {
+            box-shadow: 0 0 15px var(--lambo-orange);
+        }
+        
+        /* Schematic Line Animation (Kept for style block consistency, though SVG is replaced) */
+        .path-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 3s linear forwards;
+        }
+
+        @keyframes dash {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* Custom scrollbar for history section */
+        .hide-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
+    </style>
+</head>
+<body class="bg-black text-gray-100">
+
+    <!-- Navigation -->
+<nav class="fixed w-full z-50 bg-black/90 backdrop-blur-md border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center">
+                    <span class="heading-font text-2xl font-black italic tracking-tighter text-white">LAMBORGHINI</span>
+                    <span class="heading-font text-2xl font-light italic tracking-widest text-orange-500 ml-2">REVUELTO</span>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Language Toggle -->
+                    <div class="relative">
+                        <select id="language-select" onchange="setLanguage(this.value)" class="bg-zinc-800 text-white text-sm py-2 px-3 rounded-md focus:ring-orange-500 focus:border-orange-500 border-none appearance-none cursor-pointer">
+                            <option value="en">English</option>
+                            <option value="km">ខ្មែរ (Khmer)</option>
+                            <option value="zh-hk">廣東話 (Cantonese)</option>
+                            <option value="zh-cn">普通话 (Mandarin)</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 pointer-events-none text-gray-400"></i>
+                    </div>
+
+                    <!-- Desktop Navigation Links -->
+                    <div class="hidden md:block">
+                        <div class="flex items-baseline space-x-8">
+                            <a href="#specs" class="hover:text-orange-500 transition-colors px-3 py-2 text-sm font-medium" data-i18n="nav_specs">SPECS</a>
+                            <a href="#engine" class="hover:text-orange-500 transition-colors px-3 py-2 text-sm font-medium" data-i18n="nav_anatomy">ANATOMY</a>
+                            <a href="#history" class="hover:text-orange-500 transition-colors px-3 py-2 text-sm font-medium" data-i18n="nav_heritage">HERITAGE</a>
+                            <a href="#timeline" class="hover:text-orange-500 transition-colors px-3 py-2 text-sm font-medium" data-i18n="nav_development">DEVELOPMENT</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="text-gray-400 hover:text-white p-2">
+                        <i data-lucide="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+<div class="hidden md:hidden bg-zinc-900" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#specs" class="text-white block px-3 py-2 rounded-md text-base font-medium" data-i18n="nav_specs">Specs</a>
+                <a href="#engine" class="text-white block px-3 py-2 rounded-md text-base font-medium" data-i18n="nav_anatomy">Anatomy</a>
+                <a href="#history" class="text-white block px-3 py-2 rounded-md text-base font-medium" data-i18n="nav_heritage">Heritage</a>
+                <a href="#timeline" class="text-white block px-3 py-2 rounded-md text-base font-medium" data-i18n="nav_development">Development</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+<header id="specs" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background Overlay -->
+        <div class="absolute inset-0 z-0">
+             <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black z-10"></div>
+             <!-- Conceptual visualization of speed/light -->
+             <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1621687827582-7264879e5516?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center opacity-40"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
+            <p class="text-orange-500 tracking-[0.5em] text-sm md:text-lg mb-4 font-bold fade-in-up" style="animation-delay: 0.2s;" data-i18n="hero_v12_hpev">THE FIRST V12 HPEV</p>
+            <h1 class="text-6xl md:text-9xl font-black italic tracking-tighter mb-2 fade-in-up" style="animation-delay: 0.4s;" data-i18n="hero_title">
+                FROM NOW ON
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto mt-6 fade-in-up" style="animation-delay: 0.6s;" data-i18n="hero_subtitle">
+                Rewriting the rules with 1,015 CV. The perfect synthesis of a naturally aspirated V12 and three electric motors.
+            </p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12 fade-in-up" style="animation-delay: 0.8s;">
+                <div class="p-4 border-l-2 border-orange-500 bg-white/5 backdrop-blur-sm">
+                    <div class="text-3xl font-bold">1,015</div>
+                    <div class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="metric_power">CV Total Power</div>
+                </div>
+                <div class="p-4 border-l-2 border-orange-500 bg-white/5 backdrop-blur-sm">
+                    <div class="text-3xl font-bold">2.5s</div>
+                    <div class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="metric_accel">0-100 km/h</div>
+                </div>
+                <div class="p-4 border-l-2 border-orange-500 bg-white/5 backdrop-blur-sm">
+                    <div class="text-3xl font-bold">>350</div>
+                    <div class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="metric_speed">km/h Top Speed</div>
+                </div>
+                <div class="p-4 border-l-2 border-orange-500 bg-white/5 backdrop-blur-sm">
+                    <div class="text-3xl font-bold">V12</div>
+                    <div class="text-xs text-gray-400 uppercase tracking-wider" data-i18n="metric_engine">Naturally Aspirated</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 animate-bounce">
+            <i data-lucide="chevron-down" class="w-10 h-10 text-orange-500"></i>
+        </div>
+    </header>
+
+    <!-- Engine Anatomy Section -->
+    <section id="engine" class="py-24 relative bg-zinc-900 overflow-hidden">
+        <div class="absolute inset-0 hex-bg pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 italic">LB744 <span class="text-orange-500" data-i18n="engine_title_main">ARCHITECTURE</span></h2>
+                <p class="text-xl text-gray-300 font-light" data-i18n="engine_title_sub">A 6.5L V12 Spine with an Electric Nervous System.</p>
+            </div>
+
+            <!-- Infographic Container (Using Uploaded Image 1) -->
+            <div class="relative w-full flex justify-center p-4 mb-8">
+                <img src="Gemini_Generated_Image_l5da3sl5da3sl5da.jpg" 
+                     alt="Detailed anatomy diagram of the Lamborghini Revuelto LB744 plug-in hybrid V12 architecture with chassis outline." 
+                     class="w-full max-w-5xl rounded-lg shadow-2xl border border-orange-500/30">
+            </div>
+
+            <!-- Infographic Container (Using Uploaded Image 2 - Corrected Filename) -->
+            <div class="relative w-full flex justify-center p-4">
+                <img src="Gemini_Generated_Image_bid3s2bid3s2bid3.jpg" 
+                     alt="Detailed cutaway view of the Lamborghini Revuelto LB744 showing hybrid powertrain components within the car's body." 
+                     class="w-full max-w-5xl rounded-lg shadow-2xl border border-orange-500/30">
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Brand History Section (Horizontal Scroll) -->
+    <section id="history" class="py-20 bg-black">
+        <div class="max-w-7xl mx-auto px-4 mb-12">
+            <h2 class="text-4xl font-bold italic mb-2">THE V12 <span class="text-orange-500" data-i18n="heritage_title">LINEAGE</span></h2>
+            <p class="text-gray-400" data-i18n="heritage_subtitle">From the 350GT to the Revuelto: A history of breaking the mold.</p>
+        </div>
+
+        <div class="w-full overflow-x-auto pb-8 hide-scrollbar">
+            <div class="flex space-x-6 px-4 md:px-12 min-w-max">
+                
+                <!-- History Card 1 -->
+                <div class="w-80 h-96 relative group overflow-hidden rounded-xl border border-gray-800">
+                    <img src="https://images.unsplash.com/photo-1583095117917-7a875a5e4d15?q=80&w=2670&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/2670x1780/1a1a1a/cccccc?text=Miura+1966'" class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-60">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                    <div class="absolute bottom-0 p-6">
+                        <span class="text-orange-500 font-bold text-sm" data-i18n="miura_year">1966</span>
+                        <h3 class="text-3xl font-bold italic text-white" data-i18n="miura_model">MIURA</h3>
+                        <p class="text-sm text-gray-300 mt-2" data-i18n="miura_desc">The genesis of the supercar. The first transverse mid-mounted V12.</p>
+                    </div>
+                </div>
+
+                <!-- History Card 2 -->
+                <div class="w-80 h-96 relative group overflow-hidden rounded-xl border border-gray-800">
+                    <img src="https://images.unsplash.com/photo-1629813233869-7d88cb666115?q=80&w=2574&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/2574x1716/1a1a1a/cccccc?text=Countach+1974'" class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-60">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                    <div class="absolute bottom-0 p-6">
+                        <span class="text-orange-500 font-bold text-sm" data-i18n="countach_year">1974</span>
+                        <h3 class="text-3xl font-bold italic text-white" data-i18n="countach_model">COUNTACH</h3>
+                        <p class="text-sm text-gray-300 mt-2" data-i18n="countach_desc">The alien spaceship. Defined the 'Italian Wedge' design language.</p>
+                    </div>
+                </div>
+
+                <!-- History Card 3 -->
+                <div class="w-80 h-96 relative group overflow-hidden rounded-xl border border-gray-800">
+                    <img src="https://images.unsplash.com/photo-1669649931326-0e3184920263?q=80&w=2574&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/2574x1716/1a1a1a/cccccc?text=Diablo+1990'" class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-60">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                    <div class="absolute bottom-0 p-6">
+                        <span class="text-orange-500 font-bold text-sm" data-i18n="diablo_year">1990</span>
+                        <h3 class="text-3xl font-bold italic text-white" data-i18n="diablo_model">DIABLO</h3>
+                        <p class="text-sm text-gray-300 mt-2" data-i18n="diablo_desc">Breaking the 200mph barrier. Raw, analogue power.</p>
+                    </div>
+                </div>
+
+                <!-- History Card 4 -->
+                <div class="w-80 h-96 relative group overflow-hidden rounded-xl border border-gray-800">
+                    <img src="https://images.unsplash.com/photo-1570172619665-22d7d6f51c7d?q=80&w=2670&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/2670x1780/1a1a1a/cccccc?text=Murcielago+2001'" class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-60">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                    <div class="absolute bottom-0 p-6">
+                        <span class="text-orange-500 font-bold text-sm" data-i18n="murcielago_year">2001</span>
+                        <h3 class="text-3xl font-bold italic text-white" data-i18n="murcielago_model">MURCIÉLAGO</h3>
+                        <p class="text-sm text-gray-300 mt-2" data-i18n="murcielago_desc">The bat. The first flagship under Audi ownership.</p>
+                    </div>
+                </div>
+
+                <!-- History Card 5 -->
+                <div class="w-80 h-96 relative group overflow-hidden rounded-xl border border-gray-800">
+                    <img src="https://images.unsplash.com/photo-1632247161805-4c079212001e?q=80&w=2670&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/2670x1780/1a1a1a/cccccc?text=Aventador+2011'" class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-60">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                    <div class="absolute bottom-0 p-6">
+                        <span class="text-orange-500 font-bold text-sm" data-i18n="aventador_year">2011</span>
+                        <h3 class="text-3xl font-bold italic text-white" data-i18n="aventador_model">AVENTADOR</h3>
+                        <p class="text-sm text-gray-300 mt-2" data-i18n="aventador_desc">Carbon fiber monocoque pioneer. Reigned for a decade.</p>
+                    </div>
+                </div>
+
+                 <!-- History Card 6 -->
+                 <div class="w-80 h-96 relative group overflow-hidden rounded-xl border-2 border-orange-600 bg-orange-900/10">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="text-9xl text-orange-500/20 font-black italic">V12</span>
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                    <div class="absolute bottom-0 p-6">
+                        <span class="text-orange-500 font-bold text-sm" data-i18n="revuelto_year">2023</span>
+                        <h3 class="text-3xl font-bold italic text-white" data-i18n="revuelto_model">REVUELTO</h3>
+                        <p class="text-sm text-gray-300 mt-2" data-i18n="revuelto_desc">The Hybrid Revolution. 1015 CV. From Now On.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Development Timeline -->
+    <section id="timeline" class="py-24 bg-zinc-950">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-4xl font-bold italic text-center mb-16">PROJECT <span class="text-orange-500" data-i18n="timeline_title">LB744</span> TIMELINE</h2>
+            
+            <!-- Added Timeline Infographic Image -->
+            <div class="mb-16 w-full flex justify-center fade-in-up">
+                <div class="relative w-full max-w-3xl rounded-lg overflow-hidden border border-zinc-800 group">
+                    <img src="http://googleusercontent.com/image_collection/image_retrieval/11756182329025629440" alt="Lamborghini Revuelto LB744 technical blueprint drawing sketch" class="w-full h-auto object-cover opacity-80 group-hover:opacity-100 transition duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-4 left-4">
+                        <p class="text-xs text-orange-500 font-bold tracking-widest uppercase">Development Blueprint</p>
+                        <p class="text-sm text-gray-300">Technical Sketch: Project LB744</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative border-l-2 border-gray-800 ml-4 md:ml-0 space-y-12">
+                
+                <!-- Timeline Item 1 -->
+                <div class="md:flex items-center group relative">
+                    <div class="hidden md:block w-32 text-right pr-8 text-gray-500 font-bold text-xl">2019</div>
+                    <div class="absolute -left-[9px] top-2 md:left-auto md:right-auto md:relative w-4 h-4 bg-gray-600 rounded-full border-4 border-zinc-950 group-hover:bg-orange-500 transition"></div>
+                    <div class="ml-8 md:ml-8 flex-1 bg-zinc-900 p-6 rounded-lg border border-gray-800 group-hover:border-orange-500/50 transition">
+                        <span class="md:hidden text-orange-500 font-bold block mb-2">2019</span>
+                        <h3 class="text-xl font-bold text-white mb-2" data-i18n="timeline_2019_title">Concept Phase: LB744</h3>
+                        <p class="text-gray-400" data-i18n="timeline_2019_desc">Development begins under the codename LB744. The objective: preserve the V12 emotion while meeting strict Euro 7 emission standards via hybridization.</p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 2 -->
+                <div class="md:flex items-center group relative">
+                    <div class="hidden md:block w-32 text-right pr-8 text-gray-500 font-bold text-xl">2022</div>
+                    <div class="absolute -left-[9px] top-2 md:left-auto md:right-auto md:relative w-4 h-4 bg-gray-600 rounded-full border-4 border-zinc-950 group-hover:bg-orange-500 transition"></div>
+                    <div class="ml-8 md:ml-8 flex-1 bg-zinc-900 p-6 rounded-lg border border-gray-800 group-hover:border-orange-500/50 transition">
+                        <span class="md:hidden text-orange-500 font-bold block mb-2">2022</span>
+                        <h3 class="text-xl font-bold text-white mb-2" data-i18n="timeline_2022_title">Mule Testing</h3>
+                        <p class="text-gray-400" data-i18n="timeline_2022_desc">"Frankenstein" test mules, often wearing Aventador body panels, are spotted testing the new hybrid powertrain in cold climates and at Nürburgring.</p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 3 -->
+                <div class="md:flex items-center group relative">
+                    <div class="hidden md:block w-32 text-right pr-8 text-gray-500 font-bold text-xl">Mar 2023</div>
+                    <div class="absolute -left-[9px] top-2 md:left-auto md:right-auto md:relative w-4 h-4 bg-orange-500 rounded-full border-4 border-zinc-950 shadow-[0_0_10px_#ff5f00]"></div>
+                    <div class="ml-8 md:ml-8 flex-1 bg-zinc-900 p-6 rounded-lg border-l-4 border-orange-500 shadow-lg">
+                        <span class="md:hidden text-orange-500 font-bold block mb-2">Mar 2023</span>
+                        <h3 class="text-xl font-bold text-white mb-2" data-i18n="timeline_2023_title">The Unveiling</h3>
+                        <p class="text-gray-400" data-i18n="timeline_2023_desc">Lamborghini reveals the "Monofuselage" chassis (10% lighter, 25% stiffer) and the full car on March 29th for the 60th Anniversary. The name "Revuelto" is confirmed.</p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 4 -->
+                <div class="md:flex items-center group relative">
+                    <div class="hidden md:block w-32 text-right pr-8 text-gray-500 font-bold text-xl">2024</div>
+                    <div class="absolute -left-[9px] top-2 md:left-auto md:right-auto md:relative w-4 h-4 bg-gray-600 rounded-full border-4 border-zinc-950 group-hover:bg-orange-500 transition"></div>
+                    <div class="ml-8 md:ml-8 flex-1 bg-zinc-900 p-6 rounded-lg border border-gray-800 group-hover:border-orange-500/50 transition">
+                        <span class="md:hidden text-orange-500 font-bold block mb-2">2024</span>
+                        <h3 class="text-xl font-bold text-white mb-2" data-i18n="timeline_2024_title">Production & Sold Out</h3>
+                        <p class="text-gray-400" data-i18n="timeline_2024_desc">Full-scale production commences. Lamborghini announces the Revuelto is sold out until late 2026, confirming massive market success.</p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 5 (Future) -->
+                <div class="md:flex items-center group relative">
+                    <div class="hidden md:block w-32 text-right pr-8 text-orange-500 font-bold text-xl">2025+</div>
+                    <div class="absolute -left-[9px] top-2 md:left-auto md:right-auto md:relative w-4 h-4 bg-white rounded-full border-4 border-zinc-950 animate-pulse"></div>
+                    <div class="ml-8 md:ml-8 flex-1 bg-gradient-to-r from-zinc-900 to-zinc-800 p-6 rounded-lg border border-gray-700">
+                        <span class="md:hidden text-orange-500 font-bold block mb-2">2025</span>
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl font-bold text-white mb-2" data-i18n="timeline_2025_title">Future Evolution</h3>
+                            <span class="bg-orange-600 text-[10px] font-bold px-2 py-1 rounded text-white uppercase" data-i18n="timeline_2025_forecast">Forecast</span>
+                        </div>
+                        <ul class="list-disc list-inside text-gray-400 mt-2 space-y-2">
+                            <li data-i18n="timeline_2025_li1">Rumored <strong>Roadster</strong> variant debut.</li>
+                            <li data-i18n="timeline_2025_li2">Potential <strong>"Fenomeno"</strong> limited edition reveal at Monterey Car Week.</li>
+                            <li data-i18n="timeline_2025_li3">Enhanced ADAS and OTA software updates.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="heading-font text-2xl font-black italic text-white">LAMBORGHINI</span>
+            </div>
+            <div class="text-gray-500 text-sm" data-i18n="footer_copyright">
+                &copy; 2025 Automobili Lamborghini S.p.A. <br> A purely conceptual fan tribute.
+            </div>
+            <div class="flex space-x-6 mt-4 md:mt-0">
+                <a href="#" class="text-gray-500 hover:text-white transition"><i data-lucide="instagram"></i></a>
+                <a href="#" class="text-gray-500 hover:text-white transition"><i data-lucide="twitter"></i></a>
+                <a href="#" class="text-gray-500 hover:text-white transition"><i data-lucide="youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // --- I18N TRANSLATION DATA ---
+        const translations = {
+            "en": {
+                "nav_specs": "SPECS", "nav_anatomy": "ANATOMY", "nav_heritage": "HERITAGE", "nav_development": "DEVELOPMENT",
+                "hero_v12_hpev": "THE FIRST V12 HPEV", "hero_title": "FROM NOW ON",
+                "hero_subtitle": "Rewriting the rules with 1,015 CV. The perfect synthesis of a naturally aspirated V12 and three electric motors.",
+                "metric_power": "CV Total Power", "metric_accel": "0-100 km/h", "metric_speed": "km/h Top Speed", "metric_engine": "Naturally Aspirated",
+                "engine_title_main": "ARCHITECTURE", "engine_title_sub": "A 6.5L V12 Spine with an Electric Nervous System.",
+                "heritage_title": "LINEAGE", "heritage_subtitle": "From the 350GT to the Revuelto: A history of breaking the mold.",
+                "miura_year": "1966", "miura_model": "MIURA", "miura_desc": "The genesis of the supercar. The first transverse mid-mounted V12.",
+                "countach_year": "1974", "countach_model": "COUNTACH", "countach_desc": "The alien spaceship. Defined the 'Italian Wedge' design language.",
+                "diablo_year": "1990", "diablo_model": "DIABLO", "diablo_desc": "Breaking the 200mph barrier. Raw, analogue power.",
+                "murcielago_year": "2001", "murcielago_model": "MURCIÉLAGO", "murcielago_desc": "The bat. The first flagship under Audi ownership.",
+                "aventador_year": "2011", "aventador_model": "AVENTADOR", "aventador_desc": "Carbon fiber monocoque pioneer. Reigned for a decade.",
+                "revuelto_year": "2023", "revuelto_model": "REVUELTO", "revuelto_desc": "The Hybrid Revolution. 1015 CV. From Now On.",
+                "timeline_title": "LB744 TIMELINE",
+                "timeline_2019_title": "Concept Phase: LB744", "timeline_2019_desc": "Development begins under the codename LB744. The objective: preserve the V12 emotion while meeting strict Euro 7 emission standards via hybridization.",
+                "timeline_2022_title": "Mule Testing", "timeline_2022_desc": "\"Frankenstein\" test mules, often wearing Aventador body panels, are spotted testing the new hybrid powertrain in cold climates and at Nürburgring.",
+                "timeline_2023_title": "The Unveiling", "timeline_2023_desc": "Lamborghini reveals the \"Monofuselage\" chassis (10% lighter, 25% stiffer) and the full car on March 29th for the 60th Anniversary. The name \"Revuelto\" is confirmed.",
+                "timeline_2024_title": "Production & Sold Out", "timeline_2024_desc": "Full-scale production commences. Lamborghini announces the Revuelto is sold out until late 2026, confirming massive market success.",
+                "timeline_2025_title": "Future Evolution", "timeline_2025_forecast": "Forecast",
+                "timeline_2025_li1": "Rumored <strong>Roadster</strong> variant debut.", "timeline_2025_li2": "Potential <strong>\"Fenomeno\"</strong> limited edition reveal at Monterey Car Week.</li>", "timeline_2025_li3": "Enhanced ADAS and OTA software updates.",
+                "footer_copyright": "&copy; 2025 Automobili Lamborghini S.p.A. <br> A purely conceptual fan tribute."
+            },
+            "km": { /* Khmer */
+                "nav_specs": "លក្ខណៈ", "nav_anatomy": "កាយវិភាគ", "nav_heritage": "កេរដំណែល", "nav_development": "ការអភិវឌ្ឍ",
+                "hero_v12_hpev": "រថយន្ត V12 HPEV ទីមួយ", "hero_title": "ចាប់ពីពេលនេះទៅ",
+                "hero_subtitle": "កំណត់និយមន័យថ្មីនៃច្បាប់ដោយកម្លាំង 1,015 CV។ ការសំយោគដ៏ល្អឥតខ្ចោះនៃ V12 ធម្មជាតិ និងម៉ូទ័រអគ្គិសនីបី។",
+                "metric_power": "កម្លាំងសរុប CV", "metric_accel": "0-100 គីឡូម៉ែត្រ/ម៉ោង", "metric_speed": "ល្បឿនកំពូល គីឡូម៉ែត្រ/ម៉ោង", "metric_engine": "V12 ដង្ហើមធម្មជាតិ",
+                "engine_title_main": "ស្ថាបត្យកម្ម", "engine_title_sub": "ឆ្អឹងខ្នង V12 6.5L ជាមួយនឹងប្រព័ន្ធប្រសាទអគ្គិសនី។",
+                "heritage_title": "ពូជពង្ស V12", "heritage_subtitle": "ពី 350GT ទៅ Revuelto: ប្រវត្តិសាស្ត្រនៃការបំបែកគំរូ។",
+                "miura_year": "1966", "miura_model": "MIURA", "miura_desc": "កំណើតនៃរថយន្ត Supercar ។ V12 ម៉ោននៅកណ្តាលដំបូង។",
+                "countach_year": "1974", "countach_model": "COUNTACH", "countach_desc": "យានអវកាសបរទេស។ កំណត់រចនាប័ទ្ម 'Italian Wedge' ។",
+                "diablo_year": "1990", "diablo_model": "DIABLO", "diablo_desc": "បំបែករបាំង 200mph ។ ថាមពលឆៅ អាណាឡូក។",
+                "murcielago_year": "2001", "murcielago_model": "MURCIÉLAGO", "murcielago_desc": "សត្វប្រចៀវ។ នាវាទេសចរណ៍ដំបូងក្រោមកម្មសិទ្ធិរបស់ Audi ។",
+                "aventador_year": "2011", "aventador_model": "AVENTADOR", "aventador_desc": "អ្នកត្រួសត្រាយ monocoque សរសៃកាបូន។ គ្រប់គ្រងអស់មួយទសវត្សរ៍។",
+                "revuelto_year": "2023", "revuelto_model": "REVUELTO", "revuelto_desc": "បដិវត្តន៍កូនកាត់។ 1015 CV ។ ចាប់ពីពេលនេះទៅ។",
+                "timeline_title": "ពេលវេលាគម្រោង LB744",
+                "timeline_2019_title": "ដំណាក់កាលគំនិត: LB744", "timeline_2019_desc": "ការអភិវឌ្ឍចាប់ផ្តើមក្រោមឈ្មោះកូដ LB744។ គោលបំណង៖ រក្សាអារម្មណ៍ V12 ក្នុងពេលបំពេញស្តង់ដារបំភាយ Euro 7 យ៉ាងតឹងរ៉ឹងតាមរយៈការបំប្លែងកូនកាត់។",
+                "timeline_2022_title": "ការសាកល្បង Mule", "timeline_2022_desc": "រថយន្តសាកល្បង \"Frankenstein\" (ដែលជារឿយៗស្លៀកពាក់តួ Aventador) ត្រូវបានប្រទះឃើញសាកល្បងប្រព័ន្ធថាមពលកូនកាត់ថ្មីក្នុងអាកាសធាតុត្រជាក់ និងនៅ Nürburgring។",
+                "timeline_2023_title": "ការបង្ហាញខ្លួន", "timeline_2023_desc": "Lamborghini បង្ហាញតួ \"Monofuselage\" (ស្រាលជាង 10% រឹងជាង 25%) និងរថយន្តពេញលេញនៅថ្ងៃទី 29 ខែមីនា សម្រាប់ខួបលើកទី 60 ។ ឈ្មោះ \"Revuelto\" ត្រូវបានបញ្ជាក់។",
+                "timeline_2024_title": "ផលិតកម្ម និងលក់អស់", "timeline_2024_desc": "ការផលិតពេញលេញចាប់ផ្តើម។ Lamborghini ប្រកាសថា Revuelto ត្រូវបានលក់អស់រហូតដល់ចុងឆ្នាំ 2026 ដោយបញ្ជាក់ពីភាពជោគជ័យដ៏ធំរបស់ទីផ្សារ។",
+                "timeline_2025_title": "ការវិវត្តន៍នាពេលអនាគត", "timeline_2025_forecast": "ការព្យាករណ៍",
+                "timeline_2025_li1": "ការបង្ហាញខ្លួននៃម៉ូដែល <strong>Roadster</strong> ដែលមានពាក្យចចាមអារ៉ាម។", "timeline_2025_li2": "សក្តានុពលនៃការបង្ហាញខ្លួនរបស់ម៉ូដែលកំណត់ <strong>\"Fenomeno\"</strong> នៅសប្តាហ៍រថយន្ត Monterey ។", "timeline_2025_li3": "ការអាប់ដេតកម្មវិធី ADAS និង OTA ដែលបានពង្រឹង។",
+                "footer_copyright": "&copy; 2025 Automobili Lamborghini S.p.A. <br> ការគោរពពីអ្នកគាំទ្រសុទ្ធសាធ។"
+            },
+            "zh-hk": { /* Cantonese (Traditional Chinese - Hong Kong/Macau) */
+                "nav_specs": "規格", "nav_anatomy": "結構", "nav_heritage": "傳統", "nav_development": "發展",
+                "hero_v12_hpev": "首款 V12 HPEV", "hero_title": "從今以後",
+                "hero_subtitle": "以 1,015 CV 重寫規則。自然吸氣 V12 與三個電動機的完美結合。",
+                "metric_power": "總馬力 CV", "metric_accel": "零百加速", "metric_speed": "極速 (公里/小時)", "metric_engine": "自然吸氣 V12",
+                "engine_title_main": "結構", "engine_title_sub": "6.5L V12 脊椎與電氣神經系統。",
+                "heritage_title": "V12 血統", "heritage_subtitle": "從 350GT 到 Revuelto：打破常規的歷史。",
+                "miura_year": "1966", "miura_model": "MIURA", "miura_desc": "超級跑車的創始。首款橫置中置 V12。",
+                "countach_year": "1974", "countach_model": "COUNTACH", "countach_desc": "外星飛船。定義了「義大利楔形」設計語言。",
+                "diablo_year": "1990", "diablo_model": "DIABLO", "diablo_desc": "突破 200 英里/小時障礙。原始，模擬動力。",
+                "murcielago_year": "2001", "murcielago_model": "MURCIÉLAGO", "murcielago_desc": "蝙蝠。奧迪旗下的第一款旗艦車型。",
+                "aventador_year": "2011", "aventador_model": "AVENTADOR", "aventador_desc": "碳纖維單體式車身先驅。統治了十年。",
+                "revuelto_year": "2023", "revuelto_model": "REVUELTO", "revuelto_desc": "混合動力革命。1015 CV。從今以後。",
+                "timeline_title": "LB744 項目時間線",
+                "timeline_2019_title": "概念階段：LB744", "timeline_2019_desc": "以代號 LB744 開始開發。目標：保留 V12 的情感，同時透過混合動力滿足嚴格的歐盟 7 排放標準。",
+                "timeline_2022_title": "測試階段", "timeline_2022_desc": "「科學怪人」測試車（通常穿著 Aventador 車身面板）被發現在寒冷氣候和紐堡林測試新的混合動力總成。",
+                "timeline_2023_title": "正式發佈", "timeline_2023_desc": "Lamborghini 在 3 月 29 日 60 週年之際發佈了「Monofuselage」底盤（輕 10%，硬 25%）和完整的汽車。「Revuelto」的名稱得到確認。",
+                "timeline_2024_title": "投產及售罄", "timeline_2024_desc": "全面投產。Lamborghini 宣佈 Revuelto 已售罄至 2026 年底，證實了巨大的市場成功。",
+                "timeline_2025_title": "未來發展", "timeline_2025_forecast": "預測",
+                "timeline_2025_li1": "傳聞中的 <strong>Roadster</strong> 版本首次亮相。", "timeline_2025_li2": "潛在的 <strong>\"Fenomeno\"</strong> 限量版在蒙特雷汽車週發佈。", "timeline_2025_li3": "增強的 ADAS 和 OTA 軟件更新。",
+                "footer_copyright": "&copy; 2025 Automobili Lamborghini S.p.A. <br> 純粹的概念性粉絲致敬。"
+            },
+            "zh-cn": { /* Mandarin (Simplified Chinese) */
+                "nav_specs": "规格", "nav_anatomy": "结构", "nav_heritage": "传统", "nav_development": "发展",
+                "hero_v12_hpev": "首款 V12 HPEV", "hero_title": "从今以后",
+                "hero_subtitle": "以 1,015 CV 重写规则。自然吸气 V12 与三个电动机的完美结合。",
+                "metric_power": "总马力 CV", "metric_accel": "零百加速", "metric_speed": "极速 (公里/小时)", "metric_engine": "自然吸气 V12",
+                "engine_title_main": "结构", "engine_title_sub": "6.5L V12 脊椎与电气神经系统。",
+                "heritage_title": "V12 血统", "heritage_subtitle": "从 350GT 到 Revuelto：打破常规的历史。",
+                "miura_year": "1966", "miura_model": "MIURA", "miura_desc": "超级跑车的创世。首款横置中置 V12。",
+                "countach_year": "1974", "countach_model": "COUNTACH", "countach_desc": "外星飞船。定义了“意大利楔形”设计语言。",
+                "diablo_year": "1990", "diablo_model": "DIABLO", "diablo_desc": "突破 200 英里/小时障碍。原始，模拟动力。",
+                "murcielago_year": "2001", "murcielago_model": "MURCIÉLAGO", "murcielago_desc": "蝙蝠。奥迪旗下的第一款旗舰车型。",
+                "aventador_year": "2011", "aventador_model": "AVENTADOR", "aventador_desc": "碳纤维单体式车身先驱。统治了十年。",
+                "revuelto_year": "2023", "revuelto_model": "REVUELTO", "revuelto_desc": "混合动力革命。1015 CV。从今以后。",
+                "timeline_title": "LB744 项目时间线",
+                "timeline_2019_title": "概念阶段：LB744", "timeline_2019_desc": "以代号 LB744 开始开发。目标：保留 V12 的情感，同时透过混合动力满足严格的欧盟 7 排放标准。",
+                "timeline_2022_title": "测试阶段", "timeline_2022_desc": "“科学怪人”测试车（通常穿着 Aventador 车身面板）被发现在寒冷气候和纽伯格林测试新的混合动力总成。",
+                "timeline_2023_title": "正式发布", "timeline_2023_desc": "Lamborghini 在 3 月 29 日 60 周年之际发布了“Monofuselage”底盘（轻 10%，硬 25%）和完整的汽车。“Revuelto”的名称得到确认。",
+                "timeline_2024_title": "投产及售罄", "timeline_2024_desc": "全面投产。Lamborghini 宣布 Revuelto 已售罄至 2026 年底，证实了巨大的市场成功。",
+                "timeline_2025_title": "未来发展", "timeline_2025_forecast": "预测",
+                "timeline_2025_li1": "传闻中的 <strong>Roadster</strong> 版本首次亮相。", "timeline_2025_li2": "潜在的 <strong>\"Fenomeno\"</strong> 限量版在蒙特雷汽车周发布。", "timeline_2025_li3": "增强的 ADAS 和 OTA 软件更新。",
+                "footer_copyright": "&copy; 2025 Automobili Lamborghini S.p.A. <br> 纯粹的概念性粉丝致敬。"
+            }
+        };
+
+        function setLanguage(lang) {
+            const currentTranslations = translations[lang];
+            if (!currentTranslations) return;
+
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (currentTranslations[key]) {
+                    // Check if content contains HTML (e.g., <strong>)
+                    if (currentTranslations[key].includes('<strong>')) {
+                        element.innerHTML = currentTranslations[key];
+                    } else {
+                        element.textContent = currentTranslations[key];
+                    }
+                }
+            });
+            // Update the HTML element's lang attribute
+            document.documentElement.lang = lang;
+        }
+
+        // Set default language on load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check for saved language preference, otherwise default to English
+            const savedLang = localStorage.getItem('siteLang') || 'en';
+            document.getElementById('language-select').value = savedLang;
+            setLanguage(savedLang);
+        });
+
+        // Save language preference when changed
+        document.getElementById('language-select').addEventListener('change', (e) => {
+            localStorage.setItem('siteLang', e.target.value);
+        });
+
+        // Simple Intersection Observer for scroll animations (existing code)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-animate').forEach((el) => {
+            el.classList.add('transition', 'duration-1000', 'opacity-0', 'translate-y-10');
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
